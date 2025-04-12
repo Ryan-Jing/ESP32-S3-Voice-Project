@@ -1,0 +1,20 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v18.1.8
+    hooks:
+      - id: clang-format
+        args: [--style=file]
+  - repo: local
+    hooks:
+      - id: add-end-of-file-comment
+        name: Add end of file comment
+        entry: ./add_end_of_file_comment.sh
+        language: system
+        files: \.(cpp|h|js|py)$  # Specify the file types to apply this to
