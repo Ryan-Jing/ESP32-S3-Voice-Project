@@ -120,4 +120,5 @@ void app_main()
     xTaskCreate(
         audio_processing_task, "Audio Processing Task", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
 }
+
 // end of main.c
