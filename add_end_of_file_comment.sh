@@ -11,6 +11,7 @@ for file in "$@"; do
 
     # Check if the last line is the comment
     if [[ "$last_line" != "$comment" ]]; then
+    echo "" >> "$file"
     echo "$comment" >> "$file"
     fi
 done

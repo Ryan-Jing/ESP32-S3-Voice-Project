@@ -30,6 +30,7 @@
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "utils.h"
 
 /**************************************************************************************************/
 // MACROS
@@ -49,15 +50,74 @@
 // FUNCTION PROTOTYPES
 /**************************************************************************************************/
 
+/**************************************************************************************************/
+/**
+ * @brief
+ *
+ *
+ * @param[out] pvParameters
+ */
+/**************************************************************************************************/
 void communication_task(void *pvParameters);
+
+/**************************************************************************************************/
+/**
+ *
+ * @brief   This function is the main task for audio processing.
+ *
+ *
+ * @param[out] pvParameters
+ */
+/**************************************************************************************************/
 void audio_processing_task(void *pvParameters);
+
+/**************************************************************************************************/
+/**
+ * @brief
+ *
+ * @param[in]   void
+ */
+/**************************************************************************************************/
+void main_initialize(void);
 
 /**************************************************************************************************/
 // FUNCTION DEFINITIONS
 /**************************************************************************************************/
 
+void communication_task(void *pvParameters)
+{
+    while (1)
+    {
+        // Simulate communication task
+        ESP_LOGI(TAG, "Communication Task Running");
+        vTaskDelay(TASK_DELAY);
+    }
+}
+
+void audio_processing_task(void *pvParameters)
+{
+    while (1)
+    {
+        // Simulate audio processing task
+        ESP_LOGI(TAG, "Audio Processing Task Running");
+        vTaskDelay(TASK_DELAY);
+        ESP_LOGI(TAG, "Audio Buffer: %d", audio_buffer[0]);  // Testing
+    }
+}
+
+void main_initialize(void)
+{
+    // Create tasks
+}
+
 void app_main()
 {
     ESP_LOGI(TAG, "Main App");
+    main_initialize();
+
+    xTaskCreate(
+        communication_task, "Communication Task", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
+    xTaskCreate(
+        audio_processing_task, "Audio Processing Task", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
 }
 // end of main.c
