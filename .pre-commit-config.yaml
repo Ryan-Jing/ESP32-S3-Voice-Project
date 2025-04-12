@@ -17,4 +17,4 @@ repos:
         name: Add end of file comment
         entry: ./add_end_of_file_comment.sh
         language: system
-        files: \.(cpp|h|js|py)$  # Specify the file types to apply this to
+        files: \.(cpp|c|h|js|py)$  # Specify the file types to apply this to
