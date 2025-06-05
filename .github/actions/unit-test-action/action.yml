@@ -1,0 +1,5 @@
+name: "ESP-IDF Unit Tests Runner"
+description: "Builds the Unit Test Project, runs the application using the QEMU emulator, parses the output."
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

@@ -2,7 +2,11 @@
 # CMakeLists in this exact order for cmake to work correctly
 cmake_minimum_required(VERSION 3.16)
 
-set(EXTRA_COMPONENT_DIRS application components)
+set(EXTRA_COMPONENT_DIRS application components include)
+
+set(SDKCONFIG_DEFAULTS
+    "config/sdkconfig.defaults"
+)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(ESP32-S3-VOICE-PROJECT)

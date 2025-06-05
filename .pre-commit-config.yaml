@@ -10,11 +10,11 @@ repos:
     rev: v18.1.8
     hooks:
       - id: clang-format
-        args: [--style=file]
+        args: [--style=file, --fallback-style=none, --assume-filename=config/.clang-format]
   - repo: local
     hooks:
       - id: add-end-of-file-comment
         name: Add end of file comment
-        entry: ./add_end_of_file_comment.sh
+        entry: ./config/add_end_of_file_comment.sh
         language: system
         files: \.(cpp|c|h|js|py)$  # Specify the file types to apply this to

@@ -1,0 +1,165 @@
+\doxysection{/\+Users/ryanjing/\+Local/\+Projects-\/\+Local/\+ESP32-\/\+S3-\/\+Voice-\/\+Project/application/main.c File Reference}
+\hypertarget{main_8c}{}\label{main_8c}\index{/Users/ryanjing/Local/Projects-\/Local/ESP32-\/S3-\/Voice-\/Project/application/main.c@{/Users/ryanjing/Local/Projects-\/Local/ESP32-\/S3-\/Voice-\/Project/application/main.c}}
+
+
+This project aims to test sound processing algorithms on the ESP32 platform.
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include "{}driver/i2s\+\_\+std.\+h"{}}\newline
+{\ttfamily \#include "{}esp\+\_\+log.\+h"{}}\newline
+{\ttfamily \#include "{}freertos/\+Free\+RTOS.\+h"{}}\newline
+{\ttfamily \#include "{}freertos/task.\+h"{}}\newline
+{\ttfamily \#include "{}utils.\+h"{}}\newline
+{\ttfamily \#include "{}driver/gpio.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item
+\#define \mbox{\hyperlink{main_8c_afc3d101f633a076cc1ca84b85b6224b2}{TAG}}~"{}main.\+c"{}
+\item
+\#define \mbox{\hyperlink{main_8c_a5486258f1f34d3baeda92a74b63c27c3}{TASK\+\_\+\+STACK\+\_\+\+SIZE}}~2048
+\item
+\#define \mbox{\hyperlink{main_8c_a82dd0a9ae27bdb2c3cdd33bb7804861c}{TASK\+\_\+\+PRIORITY}}~5
+\item
+\#define \mbox{\hyperlink{main_8c_a74959040d4f3fa78c373849d6f548ca4}{TASK\+\_\+\+DELAY}}~1000 / port\+TICK\+\_\+\+PERIOD\+\_\+\+MS
+\item
+\#define \mbox{\hyperlink{main_8c_a843b341668408e5656cf19cf3389bb5a}{LED\+\_\+\+GPIO}}~2
+\item
+\#define \mbox{\hyperlink{main_8c_a12a46d6ff86950784521c2446d84b2fc}{LED\+\_\+\+DELAY}}~1000 / port\+TICK\+\_\+\+PERIOD\+\_\+\+MS
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item
+void \mbox{\hyperlink{main_8c_aa634b3956d0b849c083367ba041071af}{communication\+\_\+task}} (void \texorpdfstring{$\ast$}{*}pv\+Parameters)
+\item
+void \mbox{\hyperlink{main_8c_a97c52dc1e5468b72572ea9bef94d0903}{audio\+\_\+processing\+\_\+task}} (void \texorpdfstring{$\ast$}{*}pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em This function is the main task for audio processing. \end{DoxyCompactList}\item
+void \mbox{\hyperlink{main_8c_a36378e192e5451f98c1e78d80d198589}{led\+\_\+task}} (void \texorpdfstring{$\ast$}{*}pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em This function is the main task for LED blinking. \end{DoxyCompactList}\item
+void \mbox{\hyperlink{main_8c_ae084de5dde7ac416b6c151187ba7641b}{main\+\_\+initialize}} (void)
+\item
+void \mbox{\hyperlink{main_8c_abce06be17fc37d675118a678a8100a36}{app\+\_\+main}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This project aims to test sound processing algorithms on the ESP32 platform.
+
+\begin{DoxyAuthor}{Author}
+Ryan Jing (\href{mailto:r5jing@uwaterloo.ca}{\texttt{ r5jing@uwaterloo.\+ca}})
+\end{DoxyAuthor}
+\begin{DoxyVerb}   The goal is to implement a simple sound processing algorithm that can be run on the ESP32,
+   and to limit test the performance of the ESP32 platform for sound processing tasks.
+
+  The project will use the ESP-IDF framework and the ESP32's I2S interface to read and write
+  audio data. The project will also use FreeRTOS to manage tasks and scheduling.
+\end{DoxyVerb}
+
+
+\begin{DoxyVersion}{Version}
+0.\+1
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025-\/04-\/09  
+\end{DoxyDate}
+Copyright (c) 2024 Ryan Jing
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{main_8c_a12a46d6ff86950784521c2446d84b2fc}\index{main.c@{main.c}!LED\_DELAY@{LED\_DELAY}}
+\index{LED\_DELAY@{LED\_DELAY}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{LED\_DELAY}{LED\_DELAY}}
+{\footnotesize\ttfamily \label{main_8c_a12a46d6ff86950784521c2446d84b2fc}
+\#define LED\+\_\+\+DELAY~1000 / port\+TICK\+\_\+\+PERIOD\+\_\+\+MS}
+
+\Hypertarget{main_8c_a843b341668408e5656cf19cf3389bb5a}\index{main.c@{main.c}!LED\_GPIO@{LED\_GPIO}}
+\index{LED\_GPIO@{LED\_GPIO}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{LED\_GPIO}{LED\_GPIO}}
+{\footnotesize\ttfamily \label{main_8c_a843b341668408e5656cf19cf3389bb5a}
+\#define LED\+\_\+\+GPIO~2}
+
+\Hypertarget{main_8c_afc3d101f633a076cc1ca84b85b6224b2}\index{main.c@{main.c}!TAG@{TAG}}
+\index{TAG@{TAG}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TAG}{TAG}}
+{\footnotesize\ttfamily \label{main_8c_afc3d101f633a076cc1ca84b85b6224b2}
+\#define TAG~"{}main.\+c"{}}
+
+\Hypertarget{main_8c_a74959040d4f3fa78c373849d6f548ca4}\index{main.c@{main.c}!TASK\_DELAY@{TASK\_DELAY}}
+\index{TASK\_DELAY@{TASK\_DELAY}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TASK\_DELAY}{TASK\_DELAY}}
+{\footnotesize\ttfamily \label{main_8c_a74959040d4f3fa78c373849d6f548ca4}
+\#define TASK\+\_\+\+DELAY~1000 / port\+TICK\+\_\+\+PERIOD\+\_\+\+MS}
+
+\Hypertarget{main_8c_a82dd0a9ae27bdb2c3cdd33bb7804861c}\index{main.c@{main.c}!TASK\_PRIORITY@{TASK\_PRIORITY}}
+\index{TASK\_PRIORITY@{TASK\_PRIORITY}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TASK\_PRIORITY}{TASK\_PRIORITY}}
+{\footnotesize\ttfamily \label{main_8c_a82dd0a9ae27bdb2c3cdd33bb7804861c}
+\#define TASK\+\_\+\+PRIORITY~5}
+
+\Hypertarget{main_8c_a5486258f1f34d3baeda92a74b63c27c3}\index{main.c@{main.c}!TASK\_STACK\_SIZE@{TASK\_STACK\_SIZE}}
+\index{TASK\_STACK\_SIZE@{TASK\_STACK\_SIZE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TASK\_STACK\_SIZE}{TASK\_STACK\_SIZE}}
+{\footnotesize\ttfamily \label{main_8c_a5486258f1f34d3baeda92a74b63c27c3}
+\#define TASK\+\_\+\+STACK\+\_\+\+SIZE~2048}
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8c_abce06be17fc37d675118a678a8100a36}\index{main.c@{main.c}!app\_main@{app\_main}}
+\index{app\_main@{app\_main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{app\_main()}{app\_main()}}
+{\footnotesize\ttfamily \label{main_8c_abce06be17fc37d675118a678a8100a36}
+void app\+\_\+main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{main_8c_a97c52dc1e5468b72572ea9bef94d0903}\index{main.c@{main.c}!audio\_processing\_task@{audio\_processing\_task}}
+\index{audio\_processing\_task@{audio\_processing\_task}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{audio\_processing\_task()}{audio\_processing\_task()}}
+{\footnotesize\ttfamily \label{main_8c_a97c52dc1e5468b72572ea9bef94d0903}
+void audio\+\_\+processing\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{pv\+Parameters}{}\end{DoxyParamCaption})}
+
+
+
+This function is the main task for audio processing.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em pv\+Parameters} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8c_aa634b3956d0b849c083367ba041071af}\index{main.c@{main.c}!communication\_task@{communication\_task}}
+\index{communication\_task@{communication\_task}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{communication\_task()}{communication\_task()}}
+{\footnotesize\ttfamily \label{main_8c_aa634b3956d0b849c083367ba041071af}
+void communication\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{pv\+Parameters}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em pv\+Parameters} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8c_a36378e192e5451f98c1e78d80d198589}\index{main.c@{main.c}!led\_task@{led\_task}}
+\index{led\_task@{led\_task}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{led\_task()}{led\_task()}}
+{\footnotesize\ttfamily \label{main_8c_a36378e192e5451f98c1e78d80d198589}
+void led\+\_\+task (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{pv\+Parameters}{}\end{DoxyParamCaption})}
+
+
+
+This function is the main task for LED blinking.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8c_ae084de5dde7ac416b6c151187ba7641b}\index{main.c@{main.c}!main\_initialize@{main\_initialize}}
+\index{main\_initialize@{main\_initialize}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main\_initialize()}{main\_initialize()}}
+{\footnotesize\ttfamily \label{main_8c_ae084de5dde7ac416b6c151187ba7641b}
+void main\+\_\+initialize (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em void} & \\
+\hline
+\end{DoxyParams}
