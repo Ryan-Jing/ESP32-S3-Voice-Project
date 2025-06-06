@@ -2,7 +2,7 @@
 set -e
 . $IDF_PATH/export.sh
 
-chmod -R a+w /github/workspace || true
+# chmod -R a+w /github/workspace || true
 
 cd test
 idf.py build

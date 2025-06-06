@@ -43,9 +43,9 @@ RUN echo $($IDF_PATH/tools/idf_tools.py export) >> $HOME/.bashrc
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-USER ${CONTAINER_USER}
-ENV USER=${CONTAINER_USER}
-WORKDIR /home/${CONTAINER_USER}
+# USER ${CONTAINER_USER}
+# ENV USER=${CONTAINER_USER}
+# WORKDIR /home/${CONTAINER_USER}
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 # CMD ["/bin/bash", "-c"]
