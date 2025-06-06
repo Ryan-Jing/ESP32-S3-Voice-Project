@@ -9,10 +9,13 @@ void test_example(void) {
 
 // This task runs all tests in a loop
 void unity_task(void *pvParameter) {
+    printf("Hello from QEMU!\n");
+    fflush(stdout);
     UNITY_BEGIN();
     unity_run_all_tests();
     UNITY_END();
-    vTaskDelete(NULL); // End the task
+    // vTaskDelete(NULL); // End the task
+    esp_restart(); // or just loop forever
 }
 
 void app_main(void) {
