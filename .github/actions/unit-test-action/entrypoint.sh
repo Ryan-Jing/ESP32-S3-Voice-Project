@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 . $IDF_PATH/export.sh
+
+chmod -R a+w /github/workspace || true
+
 cd test
 idf.py build
 cd build
