@@ -94,7 +94,7 @@ esp_err_t i2s_config()
     return return_code;
 }
 
-void i2s_task()
+esp_err_t i2s_task()
 {
     size_t bytes_read = 0;
     esp_err_t ret = i2s_channel_read(rx_handle, buffer, I2S_BUFFER_SIZE, &bytes_read, pdMS_TO_TICKS(100));
@@ -108,6 +108,7 @@ void i2s_task()
     } else {
         ESP_LOGW(TAG, "Read failed: %s", esp_err_to_name(ret));
     }
+    return ret;
 }
 
 // end of mic.c

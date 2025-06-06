@@ -8,4 +8,4 @@ set(SDKCONFIG_DEFAULTS
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
-project(application)
+project(test)
