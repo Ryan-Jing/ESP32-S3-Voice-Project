@@ -17,10 +17,10 @@ cd ..
 
 results=$(grep -E '[[:digit:]]+ Tests [[:digit:]]+ Failures [[:digit:]]+ Ignored' output.log) || exit 1
 
-if command -v ruby >/dev/null && [ -f /opt/Unity-2.5.2/auto/parse_output.rb ]; then
-    ruby /opt/Unity-2.5.2/auto/parse_output.rb -xml output.log || true
-    [ -f report.xml ] && mv report.xml /github/workspace
-fi
+# if command -v ruby >/dev/null && [ -f /opt/Unity-2.5.2/auto/parse_output.rb ]; then
+#     ruby /opt/Unity-2.5.2/auto/parse_output.rb -xml output.log || true
+#     [ -f report.xml ] && mv report.xml /github/workspace
+# fi
 
 echo "========================== Unit Test Results =========================="
 echo "$results"
