@@ -3,14 +3,12 @@
 #include "mic.h"
 #include "esp_err.h"
 
-// Test that i2s_config returns ESP_OK on success
 TEST_CASE("i2s_config returns ESP_OK on successful init", "[mic]")
 {
     esp_err_t ret = i2s_config();
     TEST_ASSERT_EQUAL_HEX32(ESP_OK, ret);
 }
 
-// Optionally, test that buffer is zero-initialized (if that's expected)
 TEST_CASE("mic buffer is zero-initialized", "[mic]")
 {
     extern int16_t buffer[]; // buffer is defined in mic.c
@@ -18,7 +16,5 @@ TEST_CASE("mic buffer is zero-initialized", "[mic]")
         TEST_ASSERT_EQUAL_INT16(0, buffer[i]);
     }
 }
-
-// You can add more tests for other mic.c functions as needed
 
 // end of test_mic.c
