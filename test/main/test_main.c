@@ -3,19 +3,22 @@
 #include "freertos/task.h"
 #include "unity.h"
 
-void test_example(void) {
-    TEST_ASSERT_EQUAL(3, 1 + 1);
+static const char test_tag[] = "[dummy_test]";
+
+TEST_CASE("A 1", test_tag)
+{
+    TEST_ASSERT_EQUAL((1+3), 2);
 }
 
 // This task runs all tests in a loop
-void unity_task(void *pvParameter) {
+void unity_task(void *pvParameters) {
     printf("Hello from QEMU!\n");
     fflush(stdout);
     UNITY_BEGIN();
     unity_run_all_tests();
     UNITY_END();
-    // vTaskDelete(NULL); // End the task
-    esp_restart(); // or just loop forever
+    vTaskDelete(NULL); // End the task
+    // esp_restart(); // or just loop forever
 }
 
 void app_main(void) {
