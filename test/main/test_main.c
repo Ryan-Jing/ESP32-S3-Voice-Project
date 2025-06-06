@@ -18,7 +18,7 @@ void unity_task(void *pvParameters) {
     unity_run_all_tests();
     UNITY_END();
     vTaskDelete(NULL); // End the task
-    // esp_restart(); // or just loop forever
+    esp_restart(); // or just loop forever
 }
 
 void app_main(void) {
