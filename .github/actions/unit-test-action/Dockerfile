@@ -17,12 +17,13 @@ RUN apt-get update && \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
-ENV QEMU_REL=esp_develop_8.2.0_20240122
-ENV QEMU_SHA256=e7c72ef5705ad1444d391711088c8717fc89f42e9bf6d1487f9c2a326b8cfa83
+ENV QEMU_REL=esp_develop_9.0.0_20240606
+ENV QEMU_SHA256=071d117c44a6e9a1bc8664ab63b592d3e17ceb779119dcb46c59571a4a7a88c9
 ENV QEMU_DIST=qemu-xtensa-softmmu-${QEMU_REL}-x86_64-linux-gnu.tar.xz
-ENV QEMU_URL=https://github.com/espressif/qemu/releases/download/esp-develop-8.2.0-20240122/${QEMU_DIST}
+ENV QEMU_URL=https://github.com/espressif/qemu/releases/download/esp-develop-9.0.0-20240606/${QEMU_DIST}
 
 RUN wget --no-verbose ${QEMU_URL} && \
+    # Update the SHA256 below with the correct value from the QEMU release page!
     echo "${QEMU_SHA256} *${QEMU_DIST}" | sha256sum --check --strict - && \
     tar -xf ${QEMU_DIST} -C /opt && \
     rm ${QEMU_DIST}
