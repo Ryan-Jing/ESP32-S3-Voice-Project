@@ -4,7 +4,7 @@
 #include "unity.h"
 
 void test_example(void) {
-    TEST_ASSERT_EQUAL(2, 1 + 1);
+    TEST_ASSERT_EQUAL(3, 1 + 1);
 }
 
 // This task runs all tests in a loop
