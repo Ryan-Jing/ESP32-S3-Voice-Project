@@ -36,16 +36,16 @@ RUN groupadd --gid $USER_GID $CONTAINER_USER && \
 
 RUN chmod -R 775 /opt/esp/python_env/
 
-USER ${CONTAINER_USER}
-ENV USER=${CONTAINER_USER}
-WORKDIR /home/${CONTAINER_USER}
-
 RUN echo "source /opt/esp/idf/export.sh > /dev/null 2>&1" >> ~/.bashrc
 
 RUN echo $($IDF_PATH/tools/idf_tools.py export) >> $HOME/.bashrc
 
 ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+USER ${CONTAINER_USER}
+ENV USER=${CONTAINER_USER}
+WORKDIR /home/${CONTAINER_USER}
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 # CMD ["/bin/bash", "-c"]
