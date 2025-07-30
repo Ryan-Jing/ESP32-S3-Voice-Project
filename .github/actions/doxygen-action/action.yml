@@ -19,15 +19,27 @@ runs:
   using: 'composite'
   steps:
     - name: Setup ESP-IDF
-      uses: espressif/esp-idf-ci-action@v1
-      with:
-        esp_idf_version: v5.4
-        target: esp32s3
+      shell: bash
+      run: |
+        # Install ESP-IDF dependencies
+        sudo apt-get update
+        sudo apt-get install -y git wget flex bison gperf python3 python3-pip python3-venv cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
+
+        # Clone ESP-IDF v5.4
+        git clone --recursive --branch v5.4 --depth 1 https://github.com/espressif/esp-idf.git /opt/esp-idf
+
+        # Install ESP-IDF
+        cd /opt/esp-idf
+        ./install.sh esp32s3
+
+        # Export ESP-IDF environment
+        echo "IDF_PATH=/opt/esp-idf" >> $GITHUB_ENV
+        echo "/opt/esp-idf/tools:$PATH" >> $GITHUB_PATH
 
     - name: Build ESP-IDF project
       shell: bash
       run: |
-        . $IDF_PATH/export.sh
+        source /opt/esp-idf/export.sh
         cd application
         idf.py build
 
