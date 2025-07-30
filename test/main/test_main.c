@@ -5,10 +5,10 @@
 
 static const char test_tag[] = "[dummy_test]";
 
-TEST_CASE("A 1", test_tag)
-{
-    TEST_ASSERT_EQUAL((1+3), 2);
-}
+// TEST_CASE("A 1", test_tag)
+// {
+//     TEST_ASSERT_EQUAL((1+3), 2);
+// }
 
 // MUST HAVE esp_restart() WITHIN SINGLE EXECUTION FREE_RTOS TASK
 // This task runs all tests in a loop

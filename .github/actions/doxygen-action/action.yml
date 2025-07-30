@@ -6,6 +6,9 @@ inputs:
   github_token:
     description: 'GitHub token for deployment'
     required: true
+  personal_token:
+    description: 'Personal access token (fallback if GITHUB_TOKEN lacks permissions)'
+    required: false
   deploy_on_merge:
     description: 'Whether to deploy to GitHub Pages (true/false)'
     required: true
@@ -18,30 +21,19 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Setup ESP-IDF
+    - name: Setup Git Safe Directory
       shell: bash
       run: |
-        # Install ESP-IDF dependencies
-        sudo apt-get update
-        sudo apt-get install -y git wget flex bison gperf python3 python3-pip python3-venv cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
+        git config --global --add safe.directory /project
 
-        # Clone ESP-IDF v5.4
-        git clone --recursive --branch v5.4 --depth 1 https://github.com/espressif/esp-idf.git /opt/esp-idf
-
-        # Install ESP-IDF
-        cd /opt/esp-idf
-        ./install.sh esp32s3
-
-        # Export ESP-IDF environment
-        echo "IDF_PATH=/opt/esp-idf" >> $GITHUB_ENV
-        echo "/opt/esp-idf/tools:$PATH" >> $GITHUB_PATH
-
-    - name: Build ESP-IDF project
+    - name: Build ESP-IDF project with Docker
       shell: bash
       run: |
-        source /opt/esp-idf/export.sh
-        cd application
-        idf.py build
+        docker run -v ~/.gitconfig:/etc/gitconfig \
+                   -v $(pwd):/project \
+                   -w /project/application \
+                   espressif/idf:v5.4 /bin/bash -c \
+          ". /opt/esp/idf/export.sh && idf.py build"
 
     - name: Install Doxygen
       shell: bash
@@ -60,7 +52,7 @@ runs:
       if: inputs.deploy_on_merge == 'true'
       uses: peaceiris/actions-gh-pages@v4
       with:
-        github_token: ${{ inputs.github_token }}
+        github_token: ${{ inputs.personal_token != '' && inputs.personal_token || inputs.github_token }}
         publish_dir: ./docs/html
         publish_branch: gh-pages-doxygen
         force_orphan: true
