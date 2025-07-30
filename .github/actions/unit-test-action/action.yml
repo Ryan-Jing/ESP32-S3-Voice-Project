@@ -1,8 +1,13 @@
 name: "ESP-IDF Unit Tests Runner"
 description: "Builds the Unit Test Project, runs the application using the QEMU emulator, parses the output."
-steps:
-  - name: Make executable
-    run: chmod +x test/entrypoint.sh
 
-  - name: Run Unit Tests using Docker
-    run: docker compose run --rm unit-test
+runs:
+  using: "composite"
+  steps:
+    - name: Make executable
+      shell: bash
+      run: chmod +x test/entrypoint.sh
+
+    - name: Run Unit Tests using Docker
+      shell: bash
+      run: docker compose run --rm unit-test

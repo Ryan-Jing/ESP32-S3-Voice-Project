@@ -1,6 +1,6 @@
 name: 'Doxygen Documentation Generator'
 description: 'Builds ESP-IDF project and generates Doxygen documentation'
-author: 'Your Name'
+author: 'Ryan Jing'
 
 inputs:
   github_token:
