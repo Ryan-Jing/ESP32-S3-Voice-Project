@@ -62,7 +62,7 @@ runs:
       with:
         github_token: ${{ inputs.github_token }}
         publish_dir: ./docs/html
-        publish_branch: gh-pages
+        publish_branch: gh-pages-doxygen
         force_orphan: true
 
     - name: Comment on PR with documentation preview
