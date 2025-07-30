@@ -1,0 +1,25 @@
+name: Static Code Analysis
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  cppcheck-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Run Cppcheck Analysis
+      uses: ./.github/actions/cppcheck-action
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        fail_on_error: true      # Fail build on errors
+        fail_on_warning: false   # Don't fail on warnings (configurable)
+        is_pull_request: ${{ github.event_name == 'pull_request' }}

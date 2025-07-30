@@ -1,0 +1,229 @@
+name: 'Cppcheck Static Analysis'
+description: 'Builds ESP-IDF project and runs Cppcheck static analysis'
+author: 'Ryan Jing'
+
+inputs:
+  github_token:
+    description: 'GitHub token for comments'
+    required: true
+  fail_on_error:
+    description: 'Whether to fail the build on cppcheck errors (true/false)'
+    required: true
+    default: 'true'
+  fail_on_warning:
+    description: 'Whether to fail the build on cppcheck warnings (true/false)'
+    required: true
+    default: 'false'
+  is_pull_request:
+    description: 'Whether this is a pull request (true/false)'
+    required: true
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Git Safe Directory
+      shell: bash
+      run: |
+        git config --global --add safe.directory /project
+
+    - name: Build ESP-IDF project with Docker
+      shell: bash
+      run: |
+        docker run -v ~/.gitconfig:/etc/gitconfig \
+                   -v $(pwd):/project \
+                   -w /project/application \
+                   --entrypoint="" \
+                   espressif/idf:v5.4 /bin/bash -c \
+          ". /opt/esp/idf/export.sh && idf.py build"
+
+    - name: Install Cppcheck
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cppcheck
+
+    - name: Run Cppcheck Analysis
+      shell: bash
+      run: |
+        echo "🔍 Running Cppcheck static analysis..."
+
+        # Run cppcheck and generate XML report
+        cppcheck \
+          --enable=all \
+          --inconclusive \
+          --std=c99 \
+          --force \
+          --xml \
+          --xml-version=2 \
+          -I include \
+          -I application/main \
+          -I components \
+          -I application/test \
+          --suppress=missingIncludeSystem \
+          --suppress=unmatchedSuppression \
+          --suppress=unusedFunction \
+          --suppress=preprocessorErrorDirective \
+          --suppress=useStlAlgorithm \
+          --suppress=cppcheckError \
+          -i application/build \
+          -i test/build \
+          -i cppcheck-html \
+          -i docs \
+          application \
+          components \
+          include \
+          test \
+          2> cppcheck_report.xml
+
+        echo "✅ Cppcheck analysis completed"
+
+    - name: Generate HTML Report
+      shell: bash
+      run: |
+        echo "📊 Generating HTML report..."
+
+        # Create HTML report directory
+        mkdir -p cppcheck-html
+
+        # Generate HTML report from XML
+        cppcheck-htmlreport \
+          --file=cppcheck_report.xml \
+          --report-dir=cppcheck-html \
+          --source-dir=.
+
+        echo "✅ HTML report generated in cppcheck-html/"
+
+    - name: Parse Cppcheck Results
+      shell: bash
+      run: |
+        echo "📋 Parsing cppcheck results..."
+
+        # Parse XML and create summary
+        python3 << 'EOF'
+        import xml.etree.ElementTree as ET
+        import sys
+        import os
+
+        try:
+            tree = ET.parse('cppcheck_report.xml')
+            root = tree.getroot()
+
+            # Count issues by severity
+            severities = {'error': 0, 'warning': 0, 'style': 0, 'performance': 0, 'portability': 0, 'information': 0}
+            issues = []
+
+            for error in root.findall('errors/error'):
+                severity = error.get('severity', 'unknown')
+                msg = error.get('msg', 'No message')
+                error_id = error.get('id', 'unknown')
+
+                if severity in severities:
+                    severities[severity] += 1
+
+                # Get location info
+                location = error.find('location')
+                if location is not None:
+                    file_path = location.get('file', 'unknown')
+                    line = location.get('line', '0')
+                    issues.append({
+                        'severity': severity,
+                        'id': error_id,
+                        'message': msg,
+                        'file': file_path,
+                        'line': line
+                    })
+
+            # Create summary
+            total_issues = sum(severities.values())
+
+            print(f"📊 Cppcheck Analysis Summary:")
+            print(f"Total Issues: {total_issues}")
+            for sev, count in severities.items():
+                if count > 0:
+                    print(f"  {sev.capitalize()}: {count}")
+
+            # Write summary to file
+            with open('cppcheck-summary.txt', 'w') as f:
+                f.write("## 🔍 Cppcheck Static Analysis Results\n\n")
+                f.write(f"**Total Issues Found:** {total_issues}\n\n")
+
+                if total_issues > 0:
+                    f.write("### Issue Breakdown:\n")
+                    for sev, count in severities.items():
+                        if count > 0:
+                            emoji = {'error': '❌', 'warning': '⚠️', 'style': '💅', 'performance': '⚡', 'portability': '🔄', 'information': 'ℹ️'}.get(sev, '•')
+                            f.write(f"- {emoji} **{sev.capitalize()}:** {count}\n")
+                    f.write("\n")
+
+                    # Show critical issues
+                    critical_issues = [issue for issue in issues if issue['severity'] in ['error', 'warning']]
+                    if critical_issues:
+                        f.write("### Critical Issues:\n")
+                        for issue in critical_issues[:10]:  # Limit to first 10
+                            f.write(f"- **{issue['severity'].upper()}** in `{issue['file']}:{issue['line']}`: {issue['message']}\n")
+                        if len(critical_issues) > 10:
+                            f.write(f"- ... and {len(critical_issues) - 10} more issues\n")
+                        f.write("\n")
+                else:
+                    f.write("🎉 **No issues found!**\n\n")
+
+                f.write("📊 [View detailed HTML report](./cppcheck-html/index.html)\n")
+
+            # Set exit code based on severity and inputs
+            exit_code = 0
+            if '${{ inputs.fail_on_error }}' == 'true' and severities['error'] > 0:
+                print(f"❌ Build failed: {severities['error']} error(s) found")
+                exit_code = 1
+            elif '${{ inputs.fail_on_warning }}' == 'true' and severities['warning'] > 0:
+                print(f"❌ Build failed: {severities['warning']} warning(s) found")
+                exit_code = 1
+
+            sys.exit(exit_code)
+
+        except Exception as e:
+            print(f"❌ Error parsing cppcheck results: {e}")
+            sys.exit(1)
+        EOF
+
+    - name: Upload Cppcheck Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: cppcheck-reports
+        path: |
+          cppcheck_report.xml
+          cppcheck-html/
+          cppcheck-summary.txt
+        retention-days: 30
+
+    - name: Comment on PR with Cppcheck Results
+      if: inputs.is_pull_request == 'true'
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ inputs.github_token }}
+        script: |
+          const fs = require('fs');
+
+          try {
+            const summary = fs.readFileSync('cppcheck-summary.txt', 'utf8');
+
+            let comment = '## 🔍 Cppcheck Static Analysis Results\n\n';
+            comment += summary + '\n';
+            comment += '📁 **Artifacts:** Download the detailed reports from the Actions tab.\n';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+          } catch (error) {
+            console.log('Could not read cppcheck summary:', error.message);
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## 🔍 Cppcheck Static Analysis\n\n❌ Analysis completed but summary could not be generated. Check the Actions logs for details.'
+            });
+          }
