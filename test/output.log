@@ -1,0 +1,64 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x4 (SPI_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2810,len:0x15a0
+load:0x403c8700,len:0x4
+load:0x403c8704,len:0xd20
+load:0x403cb700,len:0x2ee4
+entry 0x403c8928
+I (119) boot: ESP-IDF v5.4 2nd stage bootloader
+I (123) boot: compile time Jul 30 2025 21:55:33
+I (124) boot: Multicore bootloader
+I (136) boot: chip revision: v0.3
+I (138) boot: efuse block revision: v0.0
+I (141) boot.esp32s3: Boot SPI Speed : 80MHz
+I (142) boot.esp32s3: SPI Mode       : DIO
+I (142) boot.esp32s3: SPI Flash Size : 2MB
+I (148) boot: Enabling RNG early entropy source...
+I (156) boot: Partition Table:
+I (156) boot: ## Label            Usage          Type ST Offset   Length
+I (156) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (159) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (159) boot:  2 factory          factory app      00 00 00010000 00100000
+I (161) boot: End of partition table
+I (164) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0a354h ( 41812) map
+I (175) esp_image: segment 1: paddr=0001a37c vaddr=3fc92200 size=02a20h ( 10784) load
+I (179) esp_image: segment 2: paddr=0001cda4 vaddr=40374000 size=03274h ( 12916) load
+I (182) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=17d34h ( 97588) map
+I (194) esp_image: segment 4: paddr=00037d5c vaddr=40377274 size=0ae98h ( 44696) load
+I (201) esp_image: segment 5: paddr=00042bfc vaddr=600fe100 size=0001ch (    28) load
+I (205) boot: Loaded app from partition at offset 0x10000
+I (206) boot: Disabling RNG early entropy source...
+W (467) rtcinit: o_code calibration fail
+
+I (243) cpu_start: Multicore app
+I (270) cpu_start: Pro cpu start user code
+I (270) cpu_start: cpu freq: 160000000 Hz
+I (270) app_init: Application information:
+I (270) app_init: Project name:     test
+I (270) app_init: App version:      937fb9e-dirty
+I (270) app_init: Compile time:     Jul 30 2025 21:55:29
+I (270) app_init: ELF file SHA256:  9b69d1328...
+I (270) app_init: ESP-IDF:          v5.4
+I (271) efuse_init: Min chip rev:     v0.0
+I (271) efuse_init: Max chip rev:     v0.99
+I (271) efuse_init: Chip rev:         v0.3
+I (272) heap_init: Initializing. RAM available for dynamic allocation:
+I (273) heap_init: At 3FC95590 len 00054180 (336 KiB): RAM
+I (273) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (274) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (274) heap_init: At 600FE11C len 00001ECC (7 KiB): RTCRAM
+I (294) spi_flash: detected chip: gd
+I (295) spi_flash: flash io: dio
+W (295) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.
+I (297) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (298) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (320) main_task: Started on CPU0
+I (370) main_task: Calling app_main()
+Hello from QEMU!
+
+-----------------------
+0 Tests 0 Failures 0 Ignored
+OK

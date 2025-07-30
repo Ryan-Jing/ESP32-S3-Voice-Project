@@ -1,0 +1,10 @@
+services:
+  unit-test:
+    container_name: unit-test
+    platform: linux/amd64  # Force x86_64
+    build:
+      context: .
+      dockerfile: test/Dockerfile
+    volumes:
+      - .:/project
+    working_dir: /project/test

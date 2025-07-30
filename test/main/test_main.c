@@ -3,7 +3,7 @@
 #include "freertos/task.h"
 #include "unity.h"
 
-static const char test_tag[] = "[dummy_test]";
+// static const char test_tag[] = "[dummy_test]";
 
 // TEST_CASE("A 1", test_tag)
 // {
