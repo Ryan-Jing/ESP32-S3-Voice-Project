@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.17.1"/>
+    <errors>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;driver/i2s_std.h&quot; not found." verbose="Include file: &quot;driver/i2s_std.h&quot; not found.">
+            <location file="application/main/main.c" line="31" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;esp_log.h&quot; not found." verbose="Include file: &quot;esp_log.h&quot; not found.">
+            <location file="application/main/main.c" line="32" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;freertos/FreeRTOS.h&quot; not found." verbose="Include file: &quot;freertos/FreeRTOS.h&quot; not found.">
+            <location file="application/main/main.c" line="33" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;freertos/task.h&quot; not found." verbose="Include file: &quot;freertos/task.h&quot; not found.">
+            <location file="application/main/main.c" line="34" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;driver/gpio.h&quot; not found." verbose="Include file: &quot;driver/gpio.h&quot; not found.">
+            <location file="application/main/main.c" line="36" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;driver/uart.h&quot; not found." verbose="Include file: &quot;driver/uart.h&quot; not found.">
+            <location file="application/main/main.c" line="37" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;driver/i2s_std.h&quot; not found." verbose="Include file: &quot;driver/i2s_std.h&quot; not found.">
+            <location file="include/mic.h" line="23" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;driver/i2s_std.h&quot; not found." verbose="Include file: &quot;driver/i2s_std.h&quot; not found.">
+            <location file="application/main/mic.c" line="20" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;esp_log.h&quot; not found." verbose="Include file: &quot;esp_log.h&quot; not found.">
+            <location file="application/main/mic.c" line="21" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;freertos/FreeRTOS.h&quot; not found." verbose="Include file: &quot;freertos/FreeRTOS.h&quot; not found.">
+            <location file="application/main/mic.c" line="22" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;driver/uart.h&quot; not found." verbose="Include file: &quot;driver/uart.h&quot; not found.">
+            <location file="application/main/mic.c" line="24" column="0"/>
+        </error>
+        <error id="redundantAssignment" severity="style" msg="Variable &apos;return_code&apos; is reassigned a value before the old one has been used." verbose="Variable &apos;return_code&apos; is reassigned a value before the old one has been used." cwe="563" file0="application/main/mic.c">
+            <location file="application/main/mic.c" line="85" column="17" info="return_code is overwritten"/>
+            <location file="application/main/mic.c" line="63" column="17" info="return_code is assigned"/>
+            <symbol>return_code</symbol>
+        </error>
+        <error id="redundantAssignment" severity="style" msg="Variable &apos;return_code&apos; is reassigned a value before the old one has been used." verbose="Variable &apos;return_code&apos; is reassigned a value before the old one has been used." cwe="563" file0="application/main/mic.c">
+            <location file="application/main/mic.c" line="86" column="17" info="return_code is overwritten"/>
+            <location file="application/main/mic.c" line="85" column="17" info="return_code is assigned"/>
+            <symbol>return_code</symbol>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;unity.h&quot; not found." verbose="Include file: &quot;unity.h&quot; not found.">
+            <location file="application/test/test_mic.c" line="2" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;esp_err.h&quot; not found." verbose="Include file: &quot;esp_err.h&quot; not found.">
+            <location file="application/test/test_mic.c" line="4" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;freertos/FreeRTOS.h&quot; not found." verbose="Include file: &quot;freertos/FreeRTOS.h&quot; not found.">
+            <location file="test/main/test_main.c" line="2" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;freertos/task.h&quot; not found." verbose="Include file: &quot;freertos/task.h&quot; not found.">
+            <location file="test/main/test_main.c" line="3" column="0"/>
+        </error>
+        <error id="missingInclude" severity="information" msg="Include file: &quot;unity.h&quot; not found." verbose="Include file: &quot;unity.h&quot; not found.">
+            <location file="test/main/test_main.c" line="4" column="0"/>
+        </error>
+        <error id="staticFunction" severity="style" msg="The function &apos;audio_processing_task&apos; should have static linkage since it is not used outside of its translation unit." verbose="The function &apos;audio_processing_task&apos; should have static linkage since it is not used outside of its translation unit.">
+            <location file="application/main/main.c" line="121" column="0"/>
+            <symbol>audio_processing_task</symbol>
+        </error>
+        <error id="staticFunction" severity="style" msg="The function &apos;main_intialize&apos; should have static linkage since it is not used outside of its translation unit." verbose="The function &apos;main_intialize&apos; should have static linkage since it is not used outside of its translation unit.">
+            <location file="application/main/main.c" line="143" column="0"/>
+            <symbol>main_intialize</symbol>
+        </error>
+        <error id="staticFunction" severity="style" msg="The function &apos;gpio_initialize&apos; should have static linkage since it is not used outside of its translation unit." verbose="The function &apos;gpio_initialize&apos; should have static linkage since it is not used outside of its translation unit.">
+            <location file="application/main/main.c" line="161" column="0"/>
+            <symbol>gpio_initialize</symbol>
+        </error>
+        <error id="staticFunction" severity="style" msg="The function &apos;audio_initialize&apos; should have static linkage since it is not used outside of its translation unit." verbose="The function &apos;audio_initialize&apos; should have static linkage since it is not used outside of its translation unit.">
+            <location file="application/main/main.c" line="179" column="0"/>
+            <symbol>audio_initialize</symbol>
+        </error>
+        <error id="staticFunction" severity="style" msg="The function &apos;unity_task&apos; should have static linkage since it is not used outside of its translation unit." verbose="The function &apos;unity_task&apos; should have static linkage since it is not used outside of its translation unit.">
+            <location file="test/main/test_main.c" line="15" column="0"/>
+            <symbol>unity_task</symbol>
+        </error>
+        <error id="checkersReport" severity="information" msg="Active checkers: 116/856 (use --checkers-report=&lt;filename&gt; to see details)" verbose="Active checkers: 116/856 (use --checkers-report=&lt;filename&gt; to see details)"/>
+    </errors>
+</results>

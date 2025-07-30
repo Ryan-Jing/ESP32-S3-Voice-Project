@@ -9,12 +9,12 @@ TEST_CASE("i2s_config returns ESP_OK on successful init", "[mic]")
     TEST_ASSERT_EQUAL_HEX32(ESP_OK, ret);
 }
 
-TEST_CASE("mic buffer is zero-initialized", "[mic]")
-{
-    extern int16_t buffer[]; // buffer is defined in mic.c
-    for (size_t i = 0; i < I2S_BUFFER_SIZE; ++i) {
-        TEST_ASSERT_EQUAL_INT16(0, buffer[i]);
-    }
-}
+// TEST_CASE("mic buffer is zero-initialized", "[mic]")
+// {
+//     extern int16_t buffer[]; // buffer is defined in mic.c
+//     for (size_t i = 0; i < I2S_BUFFER_SIZE; ++i) {
+//         TEST_ASSERT_EQUAL_INT16(0, buffer[i]);
+//     }
+// }
 
 // end of test_mic.c

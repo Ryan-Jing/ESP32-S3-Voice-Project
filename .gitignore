@@ -3,3 +3,6 @@
 build/
 components/*/*/
 managed_components/*
+.venv/
+cppcheck-html/
+docs/
