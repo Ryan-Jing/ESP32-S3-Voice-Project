@@ -1,0 +1,80 @@
+name: 'Doxygen Documentation Generator'
+description: 'Builds ESP-IDF project and generates Doxygen documentation'
+author: 'Your Name'
+
+inputs:
+  github_token:
+    description: 'GitHub token for deployment'
+    required: true
+  deploy_on_merge:
+    description: 'Whether to deploy to GitHub Pages (true/false)'
+    required: true
+    default: 'false'
+  is_pull_request:
+    description: 'Whether this is a pull request (true/false)'
+    required: true
+    default: 'false'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup ESP-IDF
+      uses: espressif/esp-idf-ci-action@v1
+      with:
+        esp_idf_version: latest
+        target: esp32
+
+    - name: Build ESP-IDF project
+      shell: bash
+      run: |
+        . $IDF_PATH/export.sh
+        cd application
+        idf.py build
+
+    - name: Install Doxygen
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y doxygen graphviz
+
+    - name: Generate Doxygen documentation
+      shell: bash
+      run: |
+        # Navigate to docs folder and generate documentation
+        cd docs
+        doxygen Doxyfile
+
+    - name: Deploy to GitHub Pages
+      if: inputs.deploy_on_merge == 'true'
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ inputs.github_token }}
+        publish_dir: ./docs/html
+        publish_branch: gh-pages-doxygen
+        force_orphan: true
+
+    - name: Comment on PR with documentation preview
+      if: inputs.is_pull_request == 'true'
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ inputs.github_token }}
+        script: |
+          const fs = require('fs');
+          let comment = '## 📊 Build and Documentation Results\n\n';
+
+          // Check if build was successful
+          comment += '✅ ESP-IDF project built successfully\n';
+          comment += '✅ Doxygen documentation generated\n\n';
+
+          // Add documentation link (will be available after merge)
+          const docsUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/`;
+          comment += `## 📚 Documentation\n\n`;
+          comment += `After this PR is merged, updated documentation will be available at: ${docsUrl}\n\n`;
+          comment += `Note: Documentation is only deployed on merge to master/main branch.\n`;
+
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });

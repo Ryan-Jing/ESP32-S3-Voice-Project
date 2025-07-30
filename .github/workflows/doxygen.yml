@@ -1,0 +1,24 @@
+name: Build and Deploy Documentation
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Build and Deploy Doxygen Documentation
+      uses: ./.github/actions/doxygen-action
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        deploy_on_merge: ${{ github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') }}
+        is_pull_request: ${{ github.event_name == 'pull_request' }}
