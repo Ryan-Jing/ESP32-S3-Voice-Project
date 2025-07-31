@@ -48,7 +48,7 @@ runs:
       run: |
         echo "🔍 Running Cppcheck static analysis..."
 
-        # Run cppcheck and generate XML report
+        # Run cppcheck and generate XML report in docs/ folder
         cppcheck \
           --enable=all \
           --inconclusive \
@@ -74,7 +74,7 @@ runs:
           components \
           include \
           test \
-          2> cppcheck_report.xml
+          2> docs/cppcheck_report.xml
 
         echo "✅ Cppcheck analysis completed"
 
@@ -88,7 +88,7 @@ runs:
 
         # Generate HTML report from XML
         cppcheck-htmlreport \
-          --file=cppcheck_report.xml \
+          --file=docs/cppcheck_report.xml \
           --report-dir=cppcheck-html \
           --source-dir=.
 
@@ -106,7 +106,7 @@ runs:
         import os
 
         try:
-            tree = ET.parse('cppcheck_report.xml')
+            tree = ET.parse('docs/cppcheck_report.xml')
             root = tree.getroot()
 
             # Count issues by severity
@@ -191,7 +191,7 @@ runs:
       with:
         name: cppcheck-reports
         path: |
-          cppcheck_report.xml
+          docs/cppcheck_report.xml
           cppcheck-html/
           cppcheck-summary.txt
         retention-days: 30
